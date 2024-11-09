@@ -21,20 +21,12 @@ groq_client = Groq(
 )
 
 def main():
-    """
-    Main function that listens for 30 seconds of audio, transcribes it, and analyzes the mood.
-    """
     print("Starting to record...")
-    audio_data = spotify_part.record_chunk(chunk_length, sample_rate)  # Record for 30 seconds
-    transcript = spotify_part.transcribe_audio(audio_data)  # Transcribe the recorded audio
-
-    # Analyze the mood based on the transcript
-    mood_response = spotify_part.get_conversation_mood(transcript)
+    audio_data = speech_to_text.record_chunk(chunk_length, sample_rate)  # Record for 30 seconds
+    transcript = speech_to_text.transcribe_audio(audio_data)  # Transcribe the recorded audio
+    mood_response = textToGPT.get_conversation_mood(transcript)
     print("Detected Mood: ", mood_response)
-
-    # Optionally, you can use the detected mood to play a corresponding playlist
-    
-    spotify_part.play_playlist_by_mood(mood_response)  # Play a mood-based playlist (based on the detected mood)
+    spotify_part.play_playlist_by_mood(mood_response)
 
 if __name__ == "__main__":
     main()
