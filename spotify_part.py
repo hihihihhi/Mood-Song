@@ -1,68 +1,44 @@
 import json
 import spotipy
-import webbrowser
+from spotipy.oauth2 import SpotifyOAuth
 
-username = 'aryan'
-client_id = 'ab090a58301b4f05ae24cfd5b62ba169'
-client_secret = '0fa9c5cc24a948e28e9a0ec4d104ccd7'
-redirect_uri = 'http://google.com/callback/'
+client_id = '5aa1088be7d448a5970906632adf3c52'
+client_secret = 'c8144353448e4ef6b48acbb1e8c8444f'
+redirect_uri = 'http://localhost:8888/callback'
 
-oauth_object = spotipy.SpotifyOAuth(client_id, client_secret, redirect_uri) 
-token_dict = oauth_object.get_access_token() 
-token = token_dict['access_token'] 
-spotifyObject = spotipy.Spotify(auth=token) 
-user_name = spotifyObject.current_user() 
+scope = 'user-read-playback-state user-modify-playback-state user-library-read'
 
-# To print the response in readable format. 
-print(json.dumps(user_name, sort_keys=True, indent=4)) 
+def play_playlist_by_mood(mood):
+    oauth_object = SpotifyOAuth(client_id, client_secret, redirect_uri, scope=scope)
 
-def find_spotify_playlist(mood):
+    try:
+        token_dict = oauth_object.get_access_token()
+        token = token_dict['access_token']
+    except spotipy.oauth2.SpotifyOauthError as e:
+        print("Error during authorization:", e)
+        return
+    
+    spotifyObject = spotipy.Spotify(auth=token)
+
     results = spotifyObject.search(q=f"{mood} mix", type="playlist", limit=20)
     playlists = results['playlists']['items']
-    # Filter playlists to include only those created by Spotify
+
     spotify_playlists = [playlist for playlist in playlists if playlist['owner']['id'] == 'spotify']
-    
-    return spotify_playlists
 
-while True: 
-    print("Welcome to the project, " + user_name['display_name']) 
-    print("0 - Exit the console") 
-    print("1 - Search for a Song") 
-    print("2 - Find Playlists by Mood")  # Added this option for mood-based playlist search
-    user_input = int(input("Enter Your Choice: ")) 
+    if spotify_playlists:
+        selected_playlist = spotify_playlists[0]
 
-    if user_input == 1: 
-        search_song = input("Enter the song name: ") 
-        results = spotifyObject.search(search_song, 1, 0, "track") 
-        songs_dict = results['tracks'] 
-        song_items = songs_dict['items'] 
-        song = song_items[0]['external_urls']['spotify'] 
-        webbrowser.open(song) 
-        print('Song has opened in your browser.') 
-
-    elif user_input == 2: 
-        mood = input("Enter the mood (e.g., 'happy', 'sad', 'chill'): ")
-        playlists = find_spotify_playlist(mood)
-        if playlists:
-            for i, playlist in enumerate(playlists):
-                print(f"{i + 1}. {playlist['name']}")
-                print(f"Link: {playlist['external_urls']['spotify']}")
-                print()
+        devices = spotifyObject.devices()
+        device_list = devices['devices']
+        
+        if device_list:
+            device_id = device_list[0]['id']
             
-            user_choice = int(input("Enter the number of the playlist you want to open: "))
-            
-            # Ensure the user input is valid
-            if 1 <= user_choice <= len(playlists):
-                selected_playlist = playlists[user_choice - 1]
-                webbrowser.open(selected_playlist['external_urls']['spotify'])
-                print(f"Opening playlist: {selected_playlist['name']}")
-            else:
-                print("Invalid choice. Please choose a valid number.")
+            spotifyObject.start_playback(device_id=device_id, context_uri=selected_playlist['uri'])
+            print(f"Playing playlist: {selected_playlist['name']}")
         else:
-            print("No playlists found for that mood.")
+            print("No active Spotify device found. Please open Spotify on a device and try again.")
+    else:
+        print(f"No playlists found for the mood: {mood}")
 
-    elif user_input == 0: 
-        print("Good Bye, Have a great day!") 
-        break
-    else: 
-        print("Please enter valid user-input.") 
+play_playlist_by_mood("confident") 
