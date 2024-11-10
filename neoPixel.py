@@ -24,12 +24,16 @@ pixels = neopixel.NeoPixel(
 )
 
 def flash(color, flashtime):
-
     num= 5
     for n in range(num):
-        pixels.fill(color)
+        a=color[0]/n
+        b=color[1]/n
+        c=color[2]/n
+        pixels.fill((a,b,c))
+        pixels.show
         time.sleep(flashtime/5)
-        pixels.fill(color/5)
+        
+        #pixels.fill(color/5)
 '''
 
 def pulse_to_energy(spotifyObject):
