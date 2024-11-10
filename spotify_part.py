@@ -1,8 +1,8 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
-client_id = '5aa1088be7d448a5970906632adf3c52'
-client_secret = 'c8144353448e4ef6b48acbb1e8c8444f'
+client_id = 'fc4a32b08de14d94bb158f07b30a397a'
+client_secret = '52ee2819288648698b373e40d71dcff6'
 redirect_uri = 'http://localhost:8888/callback'
 
 scope = 'user-read-playback-state user-modify-playback-state user-library-read user-read-currently-playing'
@@ -94,3 +94,4 @@ def get_current_energy(spotifyObject):
             tempo = audio_features[0]['energy']
             return tempo
     return None
+
