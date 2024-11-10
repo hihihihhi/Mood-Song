@@ -1,8 +1,6 @@
 import pvleopard
 import sounddevice as sd
-import numpy as np
 import time
-import keyboard
 import spotify_part
 
 # Initialize the Leopard API instance
@@ -13,22 +11,6 @@ handle = pvleopard.create(access_key)
 sample_rate = handle.sample_rate  # Ensure this matches `pvleopard` sample rate
 chunk_length= 30  # seconds
 spotifyObject = spotify_part.create_spotify_object()
-'''def trigger_start_recording():
-    """
-    Checks if the song is within its last 30 seconds, triggering recording if true.
-    """
-    print("Checking for recording trigger based on Spotify playback...")
-    
-    if spotifyObject:
-        remaining_time = spotify_part.get_remaining_time_in_song(spotifyObject)
-        # Trigger recording if remaining time is between 30 and 35 seconds
-        if remaining_time and 30 <= remaining_time <= 35:
-            print("Trigger activated: Song is in the last 30 seconds.")
-            return True
-    
-    print("Trigger not activated yet.")
-    time.sleep(2)  # Check every 2 seconds to avoid excessive API calls
-    return False'''
 
 def trigger_start_recording(max_attempts=10, wait_time=2):
     """
@@ -38,8 +20,6 @@ def trigger_start_recording(max_attempts=10, wait_time=2):
     print("Checking for recording trigger based on Spotify playback...")
     
     attempts = 0
-    #start = time.clock()
-    #duration = (spotify_part.get_time(spotifyObject))/1000
     duration = spotify_part.get_duration(spotifyObject)
 
     while True:

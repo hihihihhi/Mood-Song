@@ -1,6 +1,4 @@
-import json
 import spotipy
-import time
 from spotipy.oauth2 import SpotifyOAuth
 
 client_id = '5aa1088be7d448a5970906632adf3c52'

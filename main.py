@@ -5,7 +5,6 @@ import spotify_part
 import textToGPT
 import speech_to_text
 from groq import Groq
-import numpy as np
 from spotify_part import *
 
 # Initialize the Leopard API instance
