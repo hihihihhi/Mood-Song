@@ -12,15 +12,16 @@ def get_conversation_mood(conversation_text):
         messages=[
             {
                 "role": "user",
-                "content": f"Based on the following conversation, what mood or emotional tone is present? Give me a one word answer of a mood.  Conversation: '{conversation_text}'",
+                "content": f"Based on the following conversation, what mood or emotional tone is present? Give me a one word answer of a mood. Reply one word and one word only. Conversation: '{conversation_text}'",
             }
         ],
         model="llama3-8b-8192",
     )
     
     # Retrieve and print the response
+    
     mood_response = chat_completion.choices[0].message.content
     print("Conversation Mood:", mood_response)
     return mood_response
 
-# Example usage
+

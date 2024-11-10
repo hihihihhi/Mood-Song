@@ -7,7 +7,6 @@ client_id = '5aa1088be7d448a5970906632adf3c52'
 client_secret = 'c8144353448e4ef6b48acbb1e8c8444f'
 redirect_uri = 'http://localhost:8888/callback'
 
-#scope = 'user-read-playback-state user-modify-playback-state user-library-read'
 scope = 'user-read-playback-state user-modify-playback-state user-library-read user-read-currently-playing'
 
 
@@ -54,16 +53,14 @@ def play_playlist_by_mood(mood):
     else:
         print(f"No playlists found for the mood: {mood}")
 
-'''def get_remaining_time_in_song(spotifyObject):
+
+def get_duration(spotifyObject):
     current_playback = spotifyObject.current_playback()
-    if current_playback and current_playback['is_playing']:
-        progress_ms = current_playback['progress_ms']
-        duration_ms = current_playback['item']['duration_ms']
-        remaining_time_ms = duration_ms - progress_ms
-        return remaining_time_ms / 1000  # Convert to seconds
-    else:
-        print("No song currently playing.")
-        return None'''
+    return current_playback['item']['duration_ms']
+
+def get_time(spotifyObject):
+    current_playback = spotifyObject.current_playback()
+    return current_playback['progress_ms']
 
 def get_remaining_time_in_song(spotifyObject):
     current_playback = spotifyObject.current_playback()

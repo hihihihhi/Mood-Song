@@ -38,27 +38,23 @@ def trigger_start_recording(max_attempts=10, wait_time=2):
     print("Checking for recording trigger based on Spotify playback...")
     
     attempts = 0
-    while attempts < max_attempts:
-        if spotifyObject:
-            remaining_time = spotify_part.get_remaining_time_in_song(spotifyObject)
-            
-            if remaining_time is not None:
-                # Trigger recording if remaining time is between 30 and 35 seconds
-                if 30 <= remaining_time <= 35:
-                    print("Trigger activated: Song is in the last 30 seconds.")
-                    return True
-                else:
-                    print(f"Song playing but not in last 30 seconds (Remaining time: {remaining_time}s).")
-            else:
-                print("No song currently playing.")
-        else:
-            print("Spotify object not initialized. Check if Spotify is authorized correctly.")
-        
-        # Wait before trying again and increase attempt counter
-        time.sleep(wait_time)
-        attempts += 1
-        print(f"Attempt {attempts} of {max_attempts}...")
+    #start = time.clock()
+    #duration = (spotify_part.get_time(spotifyObject))/1000
+    duration = spotify_part.get_duration(spotifyObject)
 
+    while True:
+        time.sleep(2)
+        
+        if spotifyObject:
+            current_time = spotify_part.get_time(spotifyObject)
+            #print(current_time)
+            if (duration-current_time)/1000 < 35:
+                return True
+            
+            #    return True 
+        else:
+            return False
+    
     print("Trigger not activated within maximum attempts.")
     return False
 
@@ -74,15 +70,7 @@ def transcribe_audio(audio_data):
     #Transciber function
     transcript, words = handle.process(audio_data)
     print("Transcript:", transcript)
+    return transcript
 
-# Main loop
 
-'''try:
-    while True:
-        if trigger_start_recording():
-            audio_data = record_chunk(chunk_length, sample_rate)
-            transcribe_audio(audio_data)
-
-except KeyboardInterrupt:
-    print('Recording Stopped')'''
 
