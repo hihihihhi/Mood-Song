@@ -1,6 +1,6 @@
 from time import sleep
 from spotify_part import play_playlist_by_mood
-from textToGPT import get_conversation_mood
+from textToGPT import get_conversation_mood,get_mood_color
 import speech_to_text
 
 
@@ -28,12 +28,14 @@ def main():
                 # Analyze the transcript to detect mood
                 mood_response = get_conversation_mood(transcript)
                 print("Detected Mood:", mood_response)
+                color = get_mood_color(mood_response)
+                print("Detected Color:", color)
 
                 # Play playlist based on detected mood
                 play_playlist_by_mood(mood_response)
 
                 # Pause before checking for the next trigger
-                sleep(5)  # Wait a bit to prevent immediate retriggering
+                #sleep(5)  # Wait a bit to prevent immediate retriggering
                 a=speech_to_text.trigger_start_recording()
     except KeyboardInterrupt:
         print("Mood-Song app stopped.")

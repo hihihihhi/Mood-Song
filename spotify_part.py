@@ -71,6 +71,11 @@ def get_remaining_time_in_song(spotifyObject):
         print("No song currently playing.")
         return None
 
+def get_tempo(spotifyObject):
+    current_playback = spotifyObject.current_playback()
+    return current_playback['item']['tempo']
+
+'''
 def get_current_energy(spotifyObject):
     current_playback = spotifyObject.current_playback()
     
@@ -94,4 +99,4 @@ def get_current_energy(spotifyObject):
             tempo = audio_features[0]['energy']
             return tempo
     return None
-
+'''

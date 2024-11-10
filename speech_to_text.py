@@ -21,9 +21,12 @@ def trigger_start_recording():
     """
     print("Checking for recording trigger based on Spotify playback...")
     duration = spotify_part.get_duration(spotifyObject)
+    flashtime = 60/spotify_part.get_tempo(spotifyObject)
+
 
     while True:
-        sleep(2)
+        #sleep(2)
+        flash(color,flashtime)
         
         if spotifyObject:
             current_time = spotify_part.get_time(spotifyObject)
