@@ -3,6 +3,7 @@ from sounddevice import rec
 from sounddevice import wait
 from time import sleep
 import spotify_part
+from neoPixel import flash
 
 # Initialize the Leopard API instance
 access_key = "QBJxytrdXwNAfajs56uQE4GnjeYymGmYWwGCI4mDeQhH9eJ5tOD8GQ=="
@@ -14,7 +15,7 @@ sample_rate = handle.sample_rate  # Ensure this matches `pvleopard` sample rate
 spotifyObject = spotify_part.create_spotify_object()
 
 
-def trigger_start_recording():
+def trigger_start_recording(color):
     """
     Checks if the song is within its last 30 seconds, triggering recording if true.
     Stops checking after `max_attempts` attempts.
