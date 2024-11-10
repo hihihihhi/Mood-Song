@@ -1,24 +1,15 @@
 import time
-import sounddevice as sd
-import pvleopard
+#import sounddevice as sd
 import spotify_part
 import textToGPT
 import speech_to_text
-from groq import Groq
-from spotify_part import *
 
-# Initialize the Leopard API instance
-access_key = "QBJxytrdXwNAfajs56uQE4GnjeYymGmYWwGCI4mDeQhH9eJ5tOD8GQ=="
-handle = pvleopard.create(access_key)
 
 # Set parameters for the audio recording
-sample_rate = handle.sample_rate  # Ensure this matches `pvleopard` sample rate
-chunk_length = 30  # seconds (for the 30-second chunk)
+chunk_length = 5  # seconds (for the 30-second chunk)
 
 # Initialize the Groq API instance for mood analysis
-groq_client = Groq(
-    api_key="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"
-)
+
 
 def main():
     print("Starting Mood-Song app...")

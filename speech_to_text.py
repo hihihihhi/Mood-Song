@@ -9,8 +9,9 @@ handle = pvleopard.create(access_key)
 
 # Set parameters for the audio recording
 sample_rate = handle.sample_rate  # Ensure this matches `pvleopard` sample rate
-chunk_length= 30  # seconds
+
 spotifyObject = spotify_part.create_spotify_object()
+
 
 def trigger_start_recording(max_attempts=10, wait_time=2):
     """
@@ -35,8 +36,6 @@ def trigger_start_recording(max_attempts=10, wait_time=2):
         else:
             return False
     
-    print("Trigger not activated within maximum attempts.")
-    return False
 
 def record_chunk(chunk_length, sample_rate):
     #Records audio for a specified duration and returns as numpy array.
