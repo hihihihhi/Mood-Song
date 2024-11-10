@@ -36,7 +36,7 @@ def main():
 
                 # Pause before checking for the next trigger
                 #sleep(5)  # Wait a bit to prevent immediate retriggering
-                a=speech_to_text.trigger_start_recording()
+                a=speech_to_text.trigger_start_recording(color)
     except KeyboardInterrupt:
         print("Mood-Song app stopped.")
 
